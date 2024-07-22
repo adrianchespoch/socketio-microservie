@@ -1,0 +1,78 @@
+Dockerfile
+.dockerignore
+node_modules
+npm-debug.log
+README.md
+.next
+.git
+notes*md
+.env
+
+# Ignore common node.js files and folders
+**/.git
+**/.svn
+**/.hg
+**/CVS
+**/.DS_Store
+**/.vscode
+**/.yarn
+**/.yarn/
+**/.pnp.*
+**/yarn.lock
+**/pnpm-lock.yaml
+**/node_modules
+**/npm-debug.log
+**/.npmrc
+
+# Ignore development and testing files
+**/tests
+**/__tests__
+**/*.test.ts
+**/*.test.js
+**/*.spec.ts
+**/*.spec.js
+**/coverage
+**/docs
+
+# Ignore build and compilation output
+**/dist
+**/build
+**/out
+**/lib
+**/target
+**/tsconfig.tsbuildinfo
+**/tsconfig.json
+
+# Ignore package manager and dependency files
+**/pnpm-lock.yaml
+**/shrinkwrap.yaml
+**/yarn.lock
+**/yarn-error.log
+**/.pnp.*
+**/.yarnrc.yml
+**/.npmignore
+**/.pnpm-store
+**/.pnpmfile.js
+**/.yarn-integrity
+**/node_modules
+
+# Ignore Docker-related files and directories
+**/Dockerfile
+**/.dockerignore
+
+# Ignore source code and configuration files
+**/.env
+**/*.log
+**/*.swp
+**/tsconfig.json
+**/.env.test
+**/.eslintrc.js
+
+# Ignore version control and project-specific files
+**/CHANGELOG.md
+**/CONTRIBUTING.md
+**/LICENSE
+**/LICENSE.md
+**/HISTORY.md
+**/NOTICE
+**/NOTICE.md

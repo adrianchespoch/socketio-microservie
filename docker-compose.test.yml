@@ -1,0 +1,74 @@
+version: '3.9'
+
+services:
+  mongodb:
+    image: mongo:6.0.11
+    env_file:
+      - .env.test
+    container_name: $MONGO_CONTAINER_NAME
+    restart: always
+    ports:
+      - 2717:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=$MONGO_USERNAME
+      - MONGO_INITDB_ROOT_PASSWORD=$MONGO_PASSWORD
+    volumes:
+      - mongodb_test:/data/db
+    command: ['--auth']
+    healthcheck:
+      test: ['CMD', 'mongosh', '--eval', "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+
+  postgres:
+    image: postgres:15.4-alpine
+    env_file:
+      - .env.test
+    container_name: $POSTGRES_CONTAINER_NAME
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${DB_USERNAME}
+      PGDATA: /data/postgres
+    volumes:
+      - postgres_test:/data/postgres
+      # postgres    ->    /var/lib/postgresql/data
+      # mongo       ->    /data/db
+      # mysql       ->    /var/lib/mysql
+      # mariadb     ->    /var/lib/mysql
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${DB_USERNAME} -d ${POSTGRES_DB}']
+      interval: 5s #10
+      timeout: 3s #5
+      retries: 5
+
+  pgadmin:
+    image: dpage/pgadmin4
+    # image: dpage/pgadmin4:7.4
+    env_file:
+      - .env.test
+    container_name: PGADMIN_CONTAINER_NAME
+    depends_on:
+      postgres:
+        condition: service_healthy # Wait for the health check
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
+    ports:
+      - '${PGADMIN_PORT}:80'
+    volumes:
+      - pgadmin_test:/var/lib/pgadmin
+
+
+volumes:
+  mongodb_test:
+    external: false
+  postgres_test:
+    external: false
+  pgadmin_test:
+    external: false
