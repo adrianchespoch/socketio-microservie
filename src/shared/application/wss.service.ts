@@ -1,3 +1,4 @@
+import { SalesNotificationsErpService } from '@/sales-notifications-erp/services';
 import { Server as HttpServer } from 'http';
 import { Server as SocketIOServer } from 'socket.io';
 
@@ -8,6 +9,8 @@ type Options = {
 export class IoService {
   private static _instance: IoService; // singleton
   private ioServer: SocketIOServer;
+
+  private notificationService: SalesNotificationsErpService;
 
   private constructor(options: Options) {
     const { server } = options;
@@ -21,6 +24,10 @@ export class IoService {
         methods: ['GET', 'POST'],
       },
     });
+
+    // instantiate other services
+    this.notificationService = new SalesNotificationsErpService(this.ioServer);
+
     this.start(); // listen connections
   }
 
@@ -42,6 +49,9 @@ export class IoService {
   start() {
     this.ioServer.on('connection', socket => {
       console.log('Client connected');
+
+      // register handlers
+      this.notificationService.registerHandlers(socket);
 
       socket.on('disconnect', () => {
         console.log('Client disconnected');
