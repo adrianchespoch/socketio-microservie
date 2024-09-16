@@ -28,11 +28,11 @@ io.on('connection', socket => {
   // Escuchar nuevas notificaciones desde Django
   socket.on('nueva_notificacion_ventas', data => {
     const { destinatario_id, mensaje, tipo } = data;
-    // console.log('Nueva notificación de ventas:', data);
+    console.log('Nueva notificación de ventas:', data);
 
     // Enviar la notificación solo al destinatario correcto
     if (connectedUsers[destinatario_id]) {
-      io.to(connectedUsers[destinatario_id]).emit('recibir_notificacion', {
+      io.to(connectedUsers[destinatario_id]).emit('recibir_notificacion_ventas', {
         mensaje,
         tipo,
       });
