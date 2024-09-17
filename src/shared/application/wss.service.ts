@@ -1,6 +1,8 @@
-import { SalesNotificationsErpService } from '@/sales-notifications-erp/services';
 import { Server as HttpServer } from 'http';
 import { Server as SocketIOServer } from 'socket.io';
+
+import { FleetSchedulingSocketsService } from '@/planificadores/services';
+import { SalesNotificationsErpService } from '@/sales-notifications-erp/services';
 
 type Options = {
   server: HttpServer;
@@ -11,6 +13,7 @@ export class IoService {
   private ioServer: SocketIOServer;
 
   private notificationService: SalesNotificationsErpService;
+  private fleetSchedulingService: FleetSchedulingSocketsService;
 
   private constructor(options: Options) {
     const { server } = options;
@@ -27,6 +30,9 @@ export class IoService {
 
     // instantiate other services
     this.notificationService = new SalesNotificationsErpService(this.ioServer);
+    this.fleetSchedulingService = new FleetSchedulingSocketsService(
+      this.ioServer
+    );
 
     this.start(); // listen connections
   }
@@ -52,6 +58,7 @@ export class IoService {
 
       // register handlers
       this.notificationService.registerHandlers(socket);
+      this.fleetSchedulingService.registerHandlers(socket);
 
       socket.on('disconnect', () => {
         console.log('Client disconnected');
