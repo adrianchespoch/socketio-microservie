@@ -15,7 +15,7 @@ export class FleetSchedulingSocketsService {
     );
 
     // post to create new fleet slot schedule
-    socket.on('new_fleet_schedule', (data: any) =>
+    socket.on('new_slot_fleet_schedule', (data: any) =>
       // la fecha filtra el front
       this.handleNewFleetSchedule(data)
     );
@@ -30,8 +30,9 @@ export class FleetSchedulingSocketsService {
   }
 
   private handleNewFleetSchedule(data: any) {
-    const { fleetId } = data;
-    this.io.to(fleetId).emit('receive_fleet_schedule', data); // Emitir a la room
+    const { flota } = data;
+    console.log('-----------------', { flota, data }, '-----------------');
+    this.io.to(flota).emit('receive_fleet_schedule', data); // Emitir a la room
   }
 
   private handleDisconnect(socket: Socket) {
