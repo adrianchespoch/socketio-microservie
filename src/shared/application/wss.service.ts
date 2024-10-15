@@ -39,6 +39,7 @@ export class IoService {
 
   // init ioServer as singleton
   static initIo(options: Options) {
+    console.log('------------- 1 -----------')
     IoService._instance = new IoService(options);
   }
 
