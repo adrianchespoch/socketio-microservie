@@ -30,8 +30,7 @@ export class FleetSchedulingSocketsService {
   }
 
   private handleNewFleetSchedule(data: any) {
-    const { flota } = data;
-    console.log('-----------------', { flota, data }, '-----------------');
+    const flota = data?.flota_data?.uuid
     this.io.to(flota).emit('receive_fleet_schedule', data); // Emitir a la room
   }
 
