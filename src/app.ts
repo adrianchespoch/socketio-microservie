@@ -2,7 +2,7 @@ import { createServer } from 'http';
 
 import { IoService } from './shared/application/wss.service';
 import { envs } from './shared/infrastructure/config';
-import { MongoDB } from './shared/infrastructure/persistence';
+// import { MongoDB } from './shared/infrastructure/persistence';
 import { AppRouter } from './shared/infrastructure/server/router';
 import { Server } from './shared/infrastructure/server/server';
 
@@ -11,10 +11,10 @@ import { Server } from './shared/infrastructure/server/server';
 const main = async () => {
 
   /* MongoDB */
-  await MongoDB.connect({
-    mongoUri: envs.MONGODB_URI,
-    dbName: envs.MONGODB_NAME,
-  });
+  // await MongoDB.connect({
+  //   mongoUri: envs.MONGODB_URI,
+  //   dbName: envs.MONGODB_NAME,
+  // });
 
 
   // Avoid hidden dependencies
